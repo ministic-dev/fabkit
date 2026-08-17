@@ -25,6 +25,43 @@ export interface DialMetrics {
 }
 
 /**
+ * The angle (degrees, +x CCW) the wheel is centred on — the item at the front sits
+ * here. Points into the free space next to the corner: up-left, up-right, or up.
+ */
+export function wheelWindowCenter(placement: FabPlacement): number {
+  switch (placement) {
+    case 'bottom-left':
+      return 45
+    case 'bottom-center':
+      return 90
+    default: // bottom-right
+      return 135
+  }
+}
+
+/**
+ * How far item `i` is (degrees) from the window centre for a given wheel rotation,
+ * wrapped into [-period/2, period/2] so the ring loops: an item leaving one edge
+ * reappears at the other. `offsetDeg` is the item's fixed slot (`i * spacing`).
+ */
+export function wheelDelta(offsetDeg: number, rotationDeg: number, count: number, spacing: number): number {
+  const period = count * spacing
+  let d = (((offsetDeg + rotationDeg) % period) + period) % period
+  if (d > period / 2) d -= period
+  return d
+}
+
+/**
+ * Visibility (0..1) of a wheel item at angular distance `d` from the front: fully
+ * solid within `visFull`, fully hidden past `visEdge`, a linear peek between them.
+ */
+export function wheelVisibility(d: number, visFull: number, visEdge: number): number {
+  const ad = Math.abs(d)
+  if (ad <= visFull) return 1
+  return Math.max(0, (visEdge - ad) / (visEdge - visFull))
+}
+
+/**
  * Target offset (dx, dy) of action `i` from the trigger center when the dial is
  * fully open. React Native coords: +x right, +y down (so "up" is negative y).
  */

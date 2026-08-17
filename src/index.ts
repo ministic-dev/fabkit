@@ -25,4 +25,12 @@ export type {
 } from './types'
 
 // Geometry helpers, for laying out a dial yourself.
-export { actionTarget, arcAngles, arcRadius, type DialMetrics } from './geometry'
+export {
+  actionTarget,
+  arcAngles,
+  arcRadius,
+  wheelWindowCenter,
+  wheelDelta,
+  wheelVisibility,
+  type DialMetrics,
+} from './geometry'

@@ -35,12 +35,16 @@ export function FabAction({
   const g = useFabGroup()
   const i = __index
 
+  const isWheel = g.dial === 'wheel'
+
   const target = useMemo(
     () => actionTarget(i, g.count, g.dial, g.placement, g.metrics),
     [i, g.count, g.dial, g.placement, g.metrics],
   )
   // Each action opens over [start, 1] — later ones start a touch later (the stagger).
   const start = Math.min(0.6, i * 0.09)
+  // Wheel: this item's fixed slot on the ring.
+  const offsetDeg = i * g.wheel.spacing
 
   // At bottom-center the dial fans BOTH ways, so a single fixed side would drop
   // labels on top of neighbouring circles — send each label to its own outer side.
@@ -48,6 +52,26 @@ export function FabAction({
     g.placement === 'bottom-center' ? (target.x >= 0 ? 'right' : 'left') : g.labelSide
 
   const wrapStyle = useAnimatedStyle(() => {
+    if (g.dial === 'wheel') {
+      const w = g.wheel
+      const period = g.count * w.spacing
+      // Wrap into [-period/2, period/2] so the ring loops seamlessly.
+      let dd = (((offsetDeg + g.rotation.value) % period) + period) % period
+      if (dd > period / 2) dd -= period
+      const eff = ((w.windowCenter + dd) * Math.PI) / 180
+      const r = w.radius * g.progress.value
+      const ad2 = dd < 0 ? -dd : dd
+      // Solid across the front arc; the next item peeks in at the edges before hiding.
+      const vis = ad2 <= w.visFull ? 1 : Math.max(0, (w.visEdge - ad2) / (w.visEdge - w.visFull))
+      return {
+        opacity: g.progress.value * vis,
+        transform: [
+          { translateX: r * Math.cos(eff) },
+          { translateY: -r * Math.sin(eff) },
+          { scale: 0.74 + 0.26 * vis },
+        ],
+      }
+    }
     const local = interpolate(g.progress.value, [start, 1], [0, 1], Extrapolation.CLAMP)
     return {
       opacity: local,
@@ -63,7 +87,7 @@ export function FabAction({
   const ad = g.metrics.actionD
 
   return (
-    <AnimatedView pointerEvents="box-none" style={[anchor(g), wrapStyle]}>
+    <AnimatedView pointerEvents="box-none" style={[isWheel ? wheelAnchor(g) : anchor(g), wrapStyle]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
@@ -89,7 +113,7 @@ export function FabAction({
         {icon}
       </Pressable>
 
-      {label ? (
+      {label && !isWheel ? (
         <View
           pointerEvents="none"
           style={[styles.labelWrap, labelSide === 'left' ? { right: ad + 10 } : { left: ad + 10 }]}
@@ -104,6 +128,19 @@ export function FabAction({
       ) : null}
     </AnimatedView>
   )
+}
+
+/** Wheel: absolute, action-sized wrapper centred on the orbit centre (the rotation
+ * pivot). The animated style then translates it out to its place on the ring. */
+function wheelAnchor(g: FabGroupCtx): ViewStyle {
+  const { actionD } = g.metrics
+  return {
+    position: 'absolute',
+    width: actionD,
+    height: actionD,
+    left: g.wheel.center.x - actionD / 2,
+    top: g.wheel.center.y - actionD / 2,
+  }
 }
 
 /** Absolute, action-sized wrapper whose center sits on the trigger's center. */

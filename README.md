@@ -51,13 +51,14 @@ Both are silent no-ops when absent.
 
 ---
 
-## The dial: column or arc
+## The dial: column, arc, or wheel
 
 `Fab.Group` takes a **`dial`** prop:
 
 ```tsx
 <Fab.Group dial="column" …>  {/* default — actions stack straight up */}
 <Fab.Group dial="arc" …>     {/* actions fan out along a bend around the trigger */}
+<Fab.Group dial="wheel" …>   {/* a spinnable ring you grab-and-turn */}
 ```
 
 `arc` sweeps the actions into the free space next to the corner — up-and-left from a `bottom-right` trigger, up-and-right from `bottom-left`, and a symmetric fan from `bottom-center`. Either way it's one animation: a single shared value the actions each take their staggered share of, so opening and closing never fall out of step.
@@ -72,6 +73,22 @@ Both are silent no-ops when absent.
 ```
 
 Opening drops a scrim (or a `blur`) over the screen — the dial is modal, so the next tap either picks something or closes it, and the scrim is what says so and catches the tap. `rotateOnOpen` turns the trigger's glyph a quarter turn, so a plus becomes a close-cross.
+
+### `wheel` — a spinnable ring
+
+`wheel` lays the actions on an arc orbiting the trigger and lets you **grab and spin** them, with momentum, so the ring can hold more items than the arc shows at once — the next one peeks in at each edge to say there's more.
+
+```tsx
+<Fab.Group icon={<CompassIcon size={24} />} accessibilityLabel="Discover" dial="wheel" modal={false}>
+  <Fab.Action icon={<DexIcon size={22} />} onPress={openDex} />
+  <Fab.Action icon={<PumpIcon size={22} />} onPress={openPump} />
+  <Fab.Action icon={<GmgnIcon size={22} />} onPress={openGmgn} />
+  {/* …add as many as you like — spin to reach them */}
+</Fab.Group>
+```
+
+- Needs **`react-native-gesture-handler`** (optional peer) for the spin — install it and wrap your app in `GestureHandlerRootView`. Without it the ring still opens, just static.
+- Pair with **`modal={false}`** for a non-modal ring: only the ring's corner catches the spin, so the content behind keeps scrolling. Item `label`s are omitted on a wheel; `wheelRadius` tunes the orbit size.
 
 ---
 

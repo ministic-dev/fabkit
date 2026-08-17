@@ -9,6 +9,17 @@ export const SIZES: Record<FabSize, number> = { sm: 40, md: 56, lg: 72 }
 export const ACTION_D = 44
 export const DIAL_GAP = 14
 
+/** Wheel dial: degrees between items, and the solid/hidden visibility band (degrees
+ * from the front) — the wide gap between them lets the next item peek in at the edges. */
+export const WHEEL_SPACING = 36
+export const WHEEL_VIS_FULL = 46
+export const WHEEL_VIS_EDGE = 108
+
+/** Default orbit radius (trigger centre → item centre) for a wheel of this size. */
+export function wheelRadiusDefault(triggerD: number, actionD: number): number {
+  return triggerD / 2 + actionD / 2 + 36
+}
+
 export const DEFAULT_COLORS: FabColors = {
   primary: '#2c5fe0',
   onPrimary: '#ffffff',

@@ -1,6 +1,6 @@
 {
   "name": "@ministicdev/fabkit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -60,13 +60,17 @@
   "peerDependencies": {
     "react": ">=18",
     "react-native": ">=0.73",
-    "react-native-reanimated": ">=3.10.0"
+    "react-native-reanimated": ">=3.10.0",
+    "react-native-gesture-handler": ">=2.0.0"
   },
   "peerDependenciesMeta": {
     "expo-haptics": {
       "optional": true
     },
     "expo-blur": {
+      "optional": true
+    },
+    "react-native-gesture-handler": {
       "optional": true
     }
   },

@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { actionTarget, arcAngles, arcRadius, type DialMetrics } from './geometry'
+import {
+  actionTarget,
+  arcAngles,
+  arcRadius,
+  wheelDelta,
+  wheelVisibility,
+  wheelWindowCenter,
+  type DialMetrics,
+} from './geometry'
 
 const m: DialMetrics = { triggerD: 56, actionD: 44, gap: 14, radius: 60 }
 
@@ -72,5 +80,46 @@ describe('actionTarget — arc', () => {
     // midpoint of [90,175] = 132.5° → up-and-left
     expect(only.x).toBeLessThan(0)
     expect(only.y).toBeLessThan(0)
+  })
+})
+
+describe('wheel', () => {
+  it('front angle points into the corner’s free space', () => {
+    expect(wheelWindowCenter('bottom-right')).toBe(135)
+    expect(wheelWindowCenter('bottom-left')).toBe(45)
+    expect(wheelWindowCenter('bottom-center')).toBe(90)
+  })
+
+  it('item 0 sits at the front with no rotation', () => {
+    expect(wheelDelta(0, 0, 6, 36)).toBe(0)
+  })
+
+  it('rotation carries an item toward and past the front', () => {
+    // item 1 (slot 36°) rotated back by 36° lands on the front
+    expect(wheelDelta(36, -36, 6, 36)).toBeCloseTo(0, 6)
+  })
+
+  it('wraps into [-period/2, period/2] so the ring loops', () => {
+    const count = 6
+    const spacing = 36
+    const half = (count * spacing) / 2 // 108
+    for (let rot = -400; rot <= 400; rot += 17) {
+      const d = wheelDelta(2 * spacing, rot, count, spacing)
+      expect(d).toBeGreaterThanOrEqual(-half - 1e-9)
+      expect(d).toBeLessThanOrEqual(half + 1e-9)
+    }
+  })
+
+  it('visibility is solid at the front, peeks mid-band, hidden past the edge', () => {
+    expect(wheelVisibility(0, 46, 108)).toBe(1)
+    expect(wheelVisibility(46, 46, 108)).toBe(1)
+    expect(wheelVisibility(120, 46, 108)).toBe(0) // past the edge
+    const peek = wheelVisibility(77, 46, 108) // midway between full and edge
+    expect(peek).toBeGreaterThan(0)
+    expect(peek).toBeLessThan(1)
+  })
+
+  it('visibility is symmetric in sign of delta', () => {
+    expect(wheelVisibility(-70, 46, 108)).toBeCloseTo(wheelVisibility(70, 46, 108), 9)
   })
 })

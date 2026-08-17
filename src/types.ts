@@ -5,7 +5,7 @@ export type FabPlacement = 'bottom-left' | 'bottom-center' | 'bottom-right'
 export type FabSize = 'sm' | 'md' | 'lg'
 export type FabVariant = 'primary' | 'secondary' | 'surface' | 'destructive'
 /** How a `Fab.Group` dial unfolds. `column` stacks straight up; `arc` fans along a bend. */
-export type FabDial = 'column' | 'arc'
+export type FabDial = 'column' | 'arc' | 'wheel'
 
 /** Overridable palette. Pass a partial to `colors` to theme any part. */
 export interface FabColors {
@@ -51,8 +51,14 @@ export interface FabGroupProps {
   label?: string
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  /** Dial shape. Default `column`; `arc` fans the actions along a bend. */
+  /**
+   * Dial shape. Default `column`; `arc` fans the actions along a bend; `wheel` is a
+   * spinnable ring you grab-and-turn with momentum (needs optional
+   * `react-native-gesture-handler`; without it a wheel renders static).
+   */
   dial?: FabDial
+  /** Orbit radius for `dial="wheel"` (trigger centre → item centre). Defaults from size. */
+  wheelRadius?: number
   placement?: FabPlacement
   offset?: number
   size?: FabSize
