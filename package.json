@@ -1,7 +1,10 @@
 {
-  "name": "fabkit",
+  "name": "@ministicdev/fabkit",
   "version": "0.0.1",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "A floating action button toolkit for React Native + Expo — one action pinned over content, or a speed dial that unfolds in a column or an arc.",
   "keywords": [
     "react-native",

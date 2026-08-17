@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'
-import { Fab, type FabDial, type FabPlacement } from 'fabkit'
+import { Fab, type FabDial, type FabPlacement } from '@ministicdev/fabkit'
 
 // ---- the pool of dial actions (sliced to the chosen count) ----------------
 

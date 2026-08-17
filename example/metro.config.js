@@ -17,9 +17,9 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ]
 
-// `import { Fab } from 'fabkit'` -> ../src (the TS source).
+// `import { Fab } from '@ministicdev/fabkit'` -> ../src (the TS source).
 config.resolver.extraNodeModules = {
-  fabkit: path.resolve(workspaceRoot, 'src'),
+  '@ministicdev/fabkit': path.resolve(workspaceRoot, 'src'),
 }
 
 module.exports = config

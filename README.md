@@ -1,12 +1,12 @@
 # fabkit
 
-[![npm version](https://img.shields.io/npm/v/fabkit.svg)](https://www.npmjs.com/package/fabkit)
-[![license](https://img.shields.io/npm/l/fabkit.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@ministicdev/fabkit.svg)](https://www.npmjs.com/package/@ministicdev/fabkit)
+[![license](https://img.shields.io/npm/l/@ministicdev/fabkit.svg)](LICENSE)
 
 **A floating action button toolkit for React Native + Expo.** One action pinned over the content, or a speed dial that unfolds behind it — in a straight **column** or a bending **arc**. The whole dial runs off a single shared value on the UI thread.
 
 ```tsx
-import { Fab } from 'fabkit'
+import { Fab } from '@ministicdev/fabkit'
 
 <Fab placement="bottom-right" icon={<PlusIcon size={24} />} accessibilityLabel="New note" onPress={compose} />
 ```
@@ -16,7 +16,7 @@ import { Fab } from 'fabkit'
 ## Install
 
 ```bash
-npm install fabkit
+npm install @ministicdev/fabkit
 npx expo install react-native-reanimated
 ```
 
