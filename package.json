@@ -1,0 +1,76 @@
+{
+  "name": "fabkit",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A floating action button toolkit for React Native + Expo — one action pinned over content, or a speed dial that unfolds in a column or an arc.",
+  "keywords": [
+    "react-native",
+    "expo",
+    "fab",
+    "floating-action-button",
+    "speed-dial",
+    "reanimated",
+    "button",
+    "arc"
+  ],
+  "license": "MIT",
+  "author": "ministicdev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministic-dev/fabkit.git"
+  },
+  "sideEffects": false,
+  "react-native": "./dist/index.cjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "react-native": "./dist/index.cjs",
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "verify:dist": "node scripts/check-dist.mjs",
+    "prepublishOnly": "npm run build && npm run verify:dist"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.73",
+    "react-native-reanimated": ">=3.10.0"
+  },
+  "peerDependenciesMeta": {
+    "expo-haptics": { "optional": true },
+    "expo-blur": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-worklets": "~0.5.1",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

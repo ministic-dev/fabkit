@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "fabkit-example",
+    "slug": "fabkit-example",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.fabkit.example"
+    },
+    "android": {
+      "package": "dev.fabkit.example"
+    },
+    "plugins": ["expo-dev-client"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "fabkit": ["../src/index.ts"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "../src/**/*.ts", "../src/**/*.tsx"]
+}
