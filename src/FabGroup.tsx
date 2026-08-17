@@ -10,7 +10,7 @@ import {
   type ReactElement,
 } from 'react'
 import { BackHandler, Pressable, StyleSheet, Text, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, type SharedValue } from 'react-native-reanimated'
+import { createAnimatedComponent, useAnimatedStyle, useSharedValue, withTiming, type SharedValue } from 'react-native-reanimated'
 import type { FabColors, FabGroupProps } from './types'
 import { FabGroupContext, type FabGroupCtx } from './context'
 import { cornerContainer } from './Fab'
@@ -22,7 +22,11 @@ import { BlurView } from './blur'
 const OPEN_MS = 240
 const CLOSE_MS = 200
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+// Named `createAnimatedComponent` (not `Animated.View`/`Animated.createAnimatedComponent`)
+// so the built output survives Metro's CJS interop of Reanimated's ESM-only, no-top-level-
+// `View` package — reaching through the default export resolves to `undefined` there.
+const AnimatedView = createAnimatedComponent(View)
+const AnimatedPressable = createAnimatedComponent(Pressable)
 
 /**
  * A speed dial: a trigger that opens a set of `Fab.Action`s. The whole dial runs
@@ -172,7 +176,7 @@ export function FabGroup({
               style,
             ]}
           >
-            <Animated.View style={iconStyle}>{icon}</Animated.View>
+            <AnimatedView style={iconStyle}>{icon}</AnimatedView>
             {label ? (
               <Text style={[styles.triggerLabel, { color: fg, marginLeft: icon ? 8 : 0 }]} numberOfLines={1}>
                 {label}

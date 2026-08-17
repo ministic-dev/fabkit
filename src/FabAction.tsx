@@ -1,10 +1,17 @@
 import { useMemo } from 'react'
 import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native'
-import Animated, { Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import { createAnimatedComponent, Extrapolation, interpolate, useAnimatedStyle } from 'react-native-reanimated'
 import type { FabActionProps } from './types'
 import { useFabGroup, type FabGroupCtx } from './context'
 import { actionTarget } from './geometry'
 import { tick } from './haptics'
+
+// Build the animated View from the named `createAnimatedComponent` export rather
+// than reaching through `AnimatedView`. Reanimated ships ESM-only with no
+// top-level `View` (it lives on the default export), so a CJS/interop build of
+// `AnimatedView` resolves to `undefined` under Metro. `createAnimatedComponent`
+// is a real named export and survives that interop.
+const AnimatedView = createAnimatedComponent(View)
 
 interface InternalActionProps extends FabActionProps {
   /** Injected by Fab.Group — the action's order in the dial. */
@@ -56,7 +63,7 @@ export function FabAction({
   const ad = g.metrics.actionD
 
   return (
-    <Animated.View pointerEvents="box-none" style={[anchor(g), wrapStyle]}>
+    <AnimatedView pointerEvents="box-none" style={[anchor(g), wrapStyle]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
@@ -95,7 +102,7 @@ export function FabAction({
           </Text>
         </View>
       ) : null}
-    </Animated.View>
+    </AnimatedView>
   )
 }
 

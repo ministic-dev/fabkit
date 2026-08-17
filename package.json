@@ -1,6 +1,6 @@
 {
   "name": "@ministicdev/fabkit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -63,8 +63,12 @@
     "react-native-reanimated": ">=3.10.0"
   },
   "peerDependenciesMeta": {
-    "expo-haptics": { "optional": true },
-    "expo-blur": { "optional": true }
+    "expo-haptics": {
+      "optional": true
+    },
+    "expo-blur": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
