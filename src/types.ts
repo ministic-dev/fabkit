@@ -61,6 +61,13 @@ export interface FabGroupProps {
   haptics?: boolean
   /** Frost the screen behind the open dial (needs optional `expo-blur`) instead of dimming it. */
   blur?: boolean
+  /**
+   * Modal (default `true`) renders a full-screen backdrop while open — it dims/frosts
+   * the screen and taps anywhere outside close the dial. Set `false` for a non-modal
+   * dial: no backdrop, so content behind stays scrollable and interactive; it then
+   * closes only via the trigger or by picking an action.
+   */
+  modal?: boolean
   /** Turn the trigger's glyph a quarter circle while open (plus → cross). Default true. */
   rotateOnOpen?: boolean
   accessibilityLabel?: string

@@ -46,6 +46,7 @@ export function FabGroup({
   disabled = false,
   haptics = false,
   blur = false,
+  modal = true,
   rotateOnOpen = true,
   accessibilityLabel,
   colors: colorOverrides,
@@ -144,7 +145,7 @@ export function FabGroup({
 
   return (
     <FabGroupContext.Provider value={ctx}>
-      {rendered ? <Scrim blur={blur} colors={colors} onPress={close} isOpen={isOpen} progress={progress} /> : null}
+      {rendered && modal ? <Scrim blur={blur} colors={colors} onPress={close} isOpen={isOpen} progress={progress} /> : null}
 
       <View pointerEvents="box-none" style={StyleSheet.absoluteFill}>
         {rendered ? positioned : null}
